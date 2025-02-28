@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
 /** FONTS CUSTOM */
 import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
@@ -8,7 +8,7 @@ import { styles } from "./styles";
 /** ICONS */
 import img from "../../constants/img"
 
-export default function Home() {
+export default function Home(props) {
 
   const [fontsLoaded] = useFonts(
     {
@@ -23,11 +23,11 @@ export default function Home() {
   }
 
   function OpenPassenger() {
-    alert("PASSAGEIRO irá notificar que precisa de carona!");
+    props.navigation.navigate("passenger");
   }
 
   function OpenRide() {
-    alert("MOTORISTA irá ter acesso aos caronas");
+    props.navigation.navigate("driver");
   }
 
   return (
@@ -46,6 +46,11 @@ export default function Home() {
         <Text style={styles.title}>Motorista</Text>
         <Text style={styles.subtitle}>Ofereça carona em seu carro</Text>
       </TouchableOpacity>
+
+      <View style={styles.copyright}>
+        <Text style={styles.copyrightTitle}>Copyright (c) 2025 - App Carona. Todos os direitos reservados</Text>
+        <Text style={styles.copyrightTitle}>Desenvolvido por GOATech</Text>
+      </View>
       <StatusBar style="light" />
     </ImageBackground>
   );

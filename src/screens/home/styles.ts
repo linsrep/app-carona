@@ -16,8 +16,8 @@ export const styles = StyleSheet.create({
   },
 
   iconHome: {
-    width: 150,
-    height: 150,
+    width: 130,
+    height: 130,
   },
 
   title: {
@@ -26,14 +26,30 @@ export const styles = StyleSheet.create({
   },
 
   subtitle: {
-    fontSize: THEME.SIZE.MD,
+    fontSize: THEME.SIZE.SM,
     color: THEME.COLOR.WARNING,
     paddingTop: 5,
   },
 
   btnIconsHome: {
     alignItems: "center",
-    margin: 25,
-  }
+    margin: 15,
+  },
+
+  copyright: {
+    display:"flex",
+    width: "100%",
+    marginTop: 20,
+    position:"absolute",
+    bottom: 0,
+    alignItems: "center",
+    backgroundColor: THEME.COLOR.WARNING,
+    padding: 8,
+  },
+
+  copyrightTitle: {
+    fontSize: THEME.SIZE.XS,
+    color: THEME.COLOR.BLACK,
+  },
 
 });
