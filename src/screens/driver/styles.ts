@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: THEME.SIZE.XXXIX,
+    fontSize: THEME.SIZE.XXXXL,
     color: THEME.COLOR.PRIMARY,
   },
   subtitle: {

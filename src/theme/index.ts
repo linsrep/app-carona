@@ -38,6 +38,6 @@ export const THEME = {
     XL: 20,
     XXL: 24,
     XXXL: 32,
-    XXXIX: 54,
+    XXXXL: 54,
   },
 };
