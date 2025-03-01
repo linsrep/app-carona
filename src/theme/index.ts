@@ -3,7 +3,7 @@ export const THEME = {
     DARK: "#222222",
     LIGHT: "#FFFFFF",
 
-    OVERLAY: "rgba(0, 0, 0, 0.5)",
+    OVERLAY: "rgba(0, 0, 0, 0.2)",
   },
 
   COLOR: {
@@ -17,7 +17,7 @@ export const THEME = {
     PRIMARY: "#FF5800",
     SECONDARY: "#ffc107",
     TERTIARY: "#383838",
-    QUARTENARY: "#666666"
+    QUATERNARY: "#666666"
   },
 
   FONTS: {

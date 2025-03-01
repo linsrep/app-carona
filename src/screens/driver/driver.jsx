@@ -5,8 +5,12 @@ import { View, Text } from 'react-native';
 import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
 import { styles } from "./styles";
+import { THEME } from '../../theme';
 /** BUTTON */
 import Button from "../../components/Button";
+/** LOADING */
+import Loading from "../../components/Loading";
+import Toast from "../../components/Toast";
 
 export default function Driver() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,19 +30,22 @@ export default function Driver() {
   );
 
   if (!fontsLoaded) {
-    return <Text>CARREGANDO</Text>
+    return <Loading />
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Motorista</Text>
-      <Text style={styles.subtitle}>Diogo Lins</Text>
-      <Button
-        title="Aceitar Carona"
-        onPress={handlerPassenger}
-        isLoading={isLoading}
-      />
-      <StatusBar style="light" />
-    </View>
+    <>
+      <Toast message="EITA!" color={THEME.COLOR.SUCCESS} />
+      <View style={styles.container}>
+        <Text style={styles.title}>Motorista</Text>
+        <Text style={styles.subtitle}>Diogo Lins</Text>
+        <Button
+          title="Aceitar Carona"
+          onPress={handlerPassenger}
+          isLoading={isLoading}
+        />
+        <StatusBar style="light" />
+      </View>
+    </>
   );
 }
