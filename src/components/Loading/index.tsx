@@ -1,14 +1,16 @@
 import React from "react";
-import { Text, View, ActivityIndicator } from "react-native";
+import { Text, Image, View, ActivityIndicator } from "react-native";
 /** STYLES */
 import { THEME } from "../../theme";
 import { styles } from "./styles";
+/** ICONS */
+import img from "../../constants/img"
 
 export default function Loading(){
   return(
     <View style={styles.container}>
       <Text style={styles.text}>Aguarde!</Text>
-      <ActivityIndicator color={THEME.COLOR.PRIMARY} size="large" />
+       <ActivityIndicator color={THEME.COLOR.PRIMARY} size="large" />
     </View>
   )
 }

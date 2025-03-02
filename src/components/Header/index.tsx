@@ -7,13 +7,14 @@ import { THEME } from "../../theme";
 
 type Props = {
   title: string;
+  props: any;
   children: ReactNode;
 }
 
-export default function Header({ title, children }: Props) {
+export default function Header({ title, props, children }: Props) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.5}>
+      <TouchableOpacity activeOpacity={0.5} onPress={() => { props.navigation.goBack(); }}>
         <MaterialIcons
           name="arrow-back-ios"
           size={22}

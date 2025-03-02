@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, FlatList } from 'react-native';
+import { View, Alert, FlatList } from 'react-native';
 /** FONTS CUSTOM */
 import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
@@ -21,21 +21,25 @@ import Toast from "../../components/Toast";
 import { json_rides } from "../../constants/dados";
 
 
-export default function Driver() {
+export default function Driver(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   function handlerPassenger() {
     setIsLoading(true);
-    alert("Clicou No Botãozão de Motorista!")
+    Alert.alert("CARONA TOP!", "Ver Rota do Carona")
     setIsLoading(false);
+  }
+
+  function handlerProfile() {
+    props.navigation.navigate("profile");
   }
 
   return (
     <View style={styles.container}>
-      <Header title="VIAGENS DISPONÍVEIS">
+      <Header title="VIAGENS DISPONÍVEIS" props={props}>
         <ButtonIcon
           iconName="person"
-          onPress={() => { }}
+          onPress={handlerProfile}
         />
       </Header>
       <View style={styles.contentLista}>
@@ -44,12 +48,10 @@ export default function Driver() {
           keyExtractor={(ride) => ride.ride_id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
-            return <ButtonList items={item.passenger_name} />
+            return <ButtonList data={item} onPress={handlerPassenger} />
           }}
         />
       </View>
-
-      <StatusBar style="light" />
     </View>
   );
 }

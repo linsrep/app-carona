@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 /** STYLE */
@@ -8,18 +8,33 @@ import { THEME } from "../../theme";
 import img from "../../constants/img";
 
 type Props = {
-  items: string;
+  data: any;
 }
 
-export default function Header({ items }: Props) {
+export default function ButtonList({ data, ...rest }: Props) {
   return (
-    <TouchableOpacity style={styles.btn}>
+    <TouchableOpacity style={styles.btn} {...rest}>
       <View style={styles.content}>
         <Image source={img.car} style={styles.car} />
-        <Text style={styles.title}>{items}</Text>
+        <Text style={styles.title}>{data.passenger_name}</Text>
       </View>
-      <Text style={styles.address}>Origem: RUA DOS CAMELOS</Text>
-      <Text style={styles.address}>Destino: RUA DOS PROGRAMADORES</Text>
+      <View style={styles.contentAddress}>
+        <MaterialIcons
+          name="arrow-right"
+          size={26}
+          color={THEME.COLOR.SUCCESS}
+        />
+        <Text style={styles.address}>ORIGEM: {data.pickup_address}</Text>
+      </View>
+      <View style={styles.contentAddress}>
+        <MaterialIcons
+          name="arrow-left"
+          size={26}
+          color={THEME.COLOR.DANGER}
+        />
+        <Text style={styles.address}>DESTINO: {data.dropoff_address}</Text>
+      </View>
+
     </TouchableOpacity>
   )
 }

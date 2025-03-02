@@ -7,22 +7,8 @@ import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold 
 import { styles } from "./styles";
 /** ICONS */
 import img from "../../constants/img"
-/** LOADING */
-import Loading from "../../components/Loading";
 
 export default function Home(props) {
-
-  const [fontsLoaded] = useFonts(
-    {
-      NotoSans_400Regular,
-      NotoSans_700Bold,
-      NotoSans_800ExtraBold
-    }
-  );
-
-  if (!fontsLoaded) {
-    return <Loading />
-  }
 
   function OpenPassenger() {
     props.navigation.navigate("passenger");

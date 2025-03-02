@@ -20,7 +20,7 @@ import Loading from "../../components/Loading";
 /** ICONS */
 import img from "../../constants/img";
 
-export default function Passenger() {
+export default function Passenger(props) {
 
   const username = "Diogo O. Lins";
   const address = "Rua FullStack, 999, Centro, Dracena / SP"
@@ -42,17 +42,12 @@ export default function Passenger() {
   }
 
   function handlerProfile() {
-    Alert.alert("Vai Para o Perfil do Gayzão")
+    props.navigation.navigate("profile");
   }
-
-
- /*  if (isLoading) {
-    return <Loading />
-  } */
 
   return (
     <View style={styles.container}>
-      <Header title="ENCONTRE SUA CARONA">
+      <Header title="ENCONTRE SUA CARONA" props={props}>
         <ButtonIcon
           iconName="person"
           onPress={handlerProfile}
@@ -94,7 +89,6 @@ export default function Passenger() {
         </View>
         <Button title="PEDIR CARONA" onPress={handlerPassenger} isLoading={isLoading} />
       </View>
-      <StatusBar style="light" />
     </View>
   );
 }

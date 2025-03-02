@@ -4,22 +4,27 @@ import { THEME } from "../../theme";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: THEME.BACKGROUND.DARK,
+    paddingBlockStart: 10,
   },
   btn: {
-    paddingBottom: 15,
     borderBottomWidth: 1,
     borderBlockEndColor: THEME.COLOR.PRIMARY,
     marginBlock: 10,
+    paddingBottom: 15,
   },
   content: {
     flexDirection: "row",
     alignItems: "center",
-    paddingBlock: 5,
+    paddingBottom: 5,
+  },
+  contentAddress: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
   car: {
-    width: 32,
-    height: 32,
+    width: 30,
+    height: 30,
     marginRight: 10,
   },
   title: {
