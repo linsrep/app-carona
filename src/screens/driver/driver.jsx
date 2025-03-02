@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 /** FONTS CUSTOM */
 import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
@@ -11,10 +11,14 @@ import Header from "../../components/Header";
 import Button from "../../components/Button";
 /** BUTTON ICON */
 import ButtonIcon from "../../components/ButtonIcon";
+/** BUTTON LIST */
+import ButtonList from "../../components/ButtonList";
 /** LOADING */
 import Loading from "../../components/Loading";
 /** TOAST */
 import Toast from "../../components/Toast";
+/** DATA */
+import { json_rides } from "../../constants/dados";
 
 
 export default function Driver() {
@@ -26,34 +30,25 @@ export default function Driver() {
     setIsLoading(false);
   }
 
-  const [fontsLoaded] = useFonts(
-    {
-      NotoSans_400Regular,
-      NotoSans_700Bold,
-      NotoSans_800ExtraBold
-    }
-  );
-
-  if (!fontsLoaded) {
-    return <Loading />
-  }
-
   return (
     <View style={styles.container}>
       <Header title="VIAGENS DISPONÍVEIS">
         <ButtonIcon
           iconName="person"
-          onPress={() => {}}
-          isLoading={isLoading}
+          onPress={() => { }}
         />
       </Header>
-      <Text style={styles.title}>Motorista</Text>
-      <Text style={styles.subtitle}>Diogo Lins</Text>
-      <Button
-        title="Aceitar Carona"
-        onPress={handlerPassenger}
-        isLoading={isLoading}
-      />
+      <View style={styles.contentLista}>
+        <FlatList
+          data={json_rides}
+          keyExtractor={(ride) => ride.ride_id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => {
+            return <ButtonList items={item.passenger_name} />
+          }}
+        />
+      </View>
+
       <StatusBar style="light" />
     </View>
   );

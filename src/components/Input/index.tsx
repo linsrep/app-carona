@@ -8,7 +8,7 @@ export default function Input({ ...rest }: TextInputProps) {
   return (
     <TextInput
       style={styles.container}
-      placeholderTextColor={THEME.COLOR.TERTIARY}
+      placeholderTextColor={THEME.COLOR.QUATERNARY}
       {...rest}
     />
   );

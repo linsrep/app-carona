@@ -13,7 +13,7 @@ type Props = {
 export default function Header({ title, children }: Props) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity activeOpacity={0.5}>
         <MaterialIcons
           name="arrow-back-ios"
           size={22}
