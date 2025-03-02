@@ -12,8 +12,22 @@ export default function Routes() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="home" options={{ headerShown: false }} component={Home} />
-        <Stack.Screen name="passenger" options={{ headerShown: false }} component={Passenger} />
-        <Stack.Screen name="driver" options={{ headerShown: false }} component={Driver} />
+        <Stack.Screen
+          name="passenger"
+          options={{
+            headerShadowVisible: false,
+            headerTitle: "",
+            headerTransparent: true,
+          }}
+          component={Passenger} />
+        <Stack.Screen
+          name="driver"
+          options={{
+            headerShadowVisible: false,
+            headerTitle: "",
+            headerTransparent: true,
+          }}
+          component={Driver} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -11,12 +11,12 @@ export const styles = StyleSheet.create({
     paddingTop: (initialWindowMetrics?.insets.top || 0) + 24,
     padding: 25,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 10,
   },
-  
+
   text: {
     color: THEME.COLOR.WHITE,
-    fontSize: THEME.SIZE.XXL,
+    fontSize: THEME.SIZE.XL,
     fontFamily: THEME.FONTS.FAMILY.PRIMARY.REGULAR,
     textAlign: "center"
   }

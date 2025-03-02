@@ -3,18 +3,22 @@ export const THEME = {
     DARK: "#222222",
     LIGHT: "#FFFFFF",
 
-    OVERLAY: "rgba(0, 0, 0, 0.2)",
+    OVERLAYWHITE: "rgba(255, 255, 255, 0.6)",
+    OVERLAYDARK: "rgba(0, 0, 0, 0.6)",
   },
 
   COLOR: {
     BLACK: "#000000",
     WHITE: "#FFFFFF",
+
+    INPUT: "#F5F5F5",
+    
     DANGER: "#a93341",
     INFO: "#1dbece",
     WARNING: "#ffff00",
     SUCCESS: "#1fac5c",
 
-    PRIMARY: "#FF5800",
+    PRIMARY: "#EED532",
     SECONDARY: "#ffc107",
     TERTIARY: "#383838",
     QUATERNARY: "#666666"

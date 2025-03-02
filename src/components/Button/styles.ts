@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    maxWidth: 350,
-    marginBlock: 50,
-    minHeight: 34,
+    marginBlock: 10,
+    minHeight: 54,
     maxHeight: 54,
     borderRadius: 10,
 
@@ -17,7 +16,7 @@ export const styles = StyleSheet.create({
     backgroundColor: THEME.COLOR.PRIMARY
   },
   btnTitle: {
-    color: THEME.COLOR.WHITE,
+    color: THEME.COLOR.DARK,
     fontFamily: THEME.FONTS.FAMILY.PRIMARY.BOLD,
     fontSize: THEME.SIZE.MD,
   },

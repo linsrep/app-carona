@@ -34,18 +34,15 @@ export default function Driver() {
   }
 
   return (
-    <>
-      <Toast message="EITA!" color={THEME.COLOR.SUCCESS} />
-      <View style={styles.container}>
-        <Text style={styles.title}>Motorista</Text>
-        <Text style={styles.subtitle}>Diogo Lins</Text>
-        <Button
-          title="Aceitar Carona"
-          onPress={handlerPassenger}
-          isLoading={isLoading}
-        />
-        <StatusBar style="light" />
-      </View>
-    </>
+    <View style={styles.container}>
+      <Text style={styles.title}>Motorista</Text>
+      <Text style={styles.subtitle}>Diogo Lins</Text>
+      <Button
+        title="Aceitar Carona"
+        onPress={handlerPassenger}
+        isLoading={isLoading}
+      />
+      <StatusBar style="light" />
+    </View>
   );
 }

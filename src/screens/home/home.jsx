@@ -7,6 +7,8 @@ import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold 
 import { styles } from "./styles";
 /** ICONS */
 import img from "../../constants/img"
+/** LOADING */
+import Loading from "../../components/Loading";
 
 export default function Home(props) {
 
@@ -19,7 +21,7 @@ export default function Home(props) {
   );
 
   if (!fontsLoaded) {
-    return <Text>Carregando...</Text>
+    return <Loading />
   }
 
   function OpenPassenger() {
