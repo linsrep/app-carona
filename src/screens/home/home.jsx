@@ -1,8 +1,5 @@
 import React from "react";
-import { StatusBar } from 'expo-status-bar';
 import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
-/** FONTS CUSTOM */
-import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
 import { styles } from "./styles";
 /** ICONS */
@@ -39,7 +36,6 @@ export default function Home(props) {
         <Text style={styles.copyrightTitle}>Copyright (c) 2025 - APP LevaEU! Todos os direitos reservados</Text>
         <Text style={styles.copyrightTitle}>Desenvolvido por GOATech</Text>
       </View>
-      <StatusBar style="light" />
     </ImageBackground>
   );
 }

@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { StatusBar } from 'expo-status-bar';
 import { View, Alert, FlatList } from 'react-native';
-/** FONTS CUSTOM */
-import { useFonts, NotoSans_400Regular, NotoSans_700Bold, NotoSans_800ExtraBold } from "@expo-google-fonts/noto-sans";
 /** STYLE */
 import { styles } from "./styles";
 /** HEADER */
 import Header from "../../components/Header";
-/** BUTTON */
-import Button from "../../components/Button";
 /** BUTTON ICON */
 import ButtonIcon from "../../components/ButtonIcon";
 /** BUTTON LIST */
@@ -24,22 +19,22 @@ import { json_rides } from "../../constants/dados";
 export default function Driver(props) {
   const [isLoading, setIsLoading] = useState(false);
 
-  function handlerPassenger() {
+  function handlerPassenger(id) {
     setIsLoading(true);
-    Alert.alert("CARONA TOP!", "Ver Rota do Carona")
+    Alert.alert("CARONA ACEITA", "Rua Dos Programadores, " + id)
     setIsLoading(false);
   }
 
-  function handlerProfile() {
-    props.navigation.navigate("profile");
+  function handlerConfig() {
+    props.navigation.navigate("configuration");
   }
 
   return (
     <View style={styles.container}>
       <Header title="VIAGENS DISPONÍVEIS" props={props}>
         <ButtonIcon
-          iconName="person"
-          onPress={handlerProfile}
+          iconName="list"
+          onPress={handlerConfig}
         />
       </Header>
       <View style={styles.contentLista}>
@@ -48,7 +43,7 @@ export default function Driver(props) {
           keyExtractor={(ride) => ride.ride_id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
-            return <ButtonList data={item} onPress={handlerPassenger} />
+            return <ButtonList data={item} onPress={() => handlerPassenger(item.ride_id)} />
           }}
         />
       </View>

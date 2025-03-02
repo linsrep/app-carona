@@ -5,6 +5,7 @@ import Home from "./screens/home/home";
 import Driver from "./screens/driver/driver";
 import Passenger from "./screens/passenger/passenger"
 import Profile from "./screens/profile/profile"
+import Configuration from "./screens/configuration/configuration";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,10 @@ export default function Routes() {
           name="profile"
           options={{ headerShown: false }}
           component={Profile} />
+          <Stack.Screen
+          name="configuration"
+          options={{ headerShown: false }}
+          component={Configuration} />
       </Stack.Navigator>
     </NavigationContainer>
   )

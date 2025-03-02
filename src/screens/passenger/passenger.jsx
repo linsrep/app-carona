@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { StatusBar } from 'expo-status-bar';
-import { Text, View, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 /** STYLE */
 import { styles } from "./styles";
