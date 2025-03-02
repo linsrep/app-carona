@@ -13,8 +13,8 @@ export default function Toast({ message, color }: Props) {
   return (
     <Animated.View
       style={[styles.container, { backgroundColor: color} ]}
-      entering={SlideInUp.duration(600)}
-      exiting={SlideInUp.duration(600)}
+      entering={SlideInUp.duration(700)}
+      exiting={SlideOutUp.duration(500)}
     >
       <Text style={styles.text}>
         {message}

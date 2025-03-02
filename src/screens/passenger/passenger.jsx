@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 /** STYLE */
 import { styles } from "./styles";
+import { THEME } from "../../theme";
+/** HEADER */
+import Header from "../../components/Header";
+/** TOAST - MENSAGENS */
+import Toast from "../../components/Toast";
 /** BUTTON */
 import Button from "../../components/Button";
+/** BUTTON ICON */
+import ButtonIcon from "../../components/ButtonIcon";
 /** TEXTINPUT */
 import Input from "../../components/Input";
 /** LOADING */
@@ -18,6 +25,7 @@ export default function Passenger() {
   const username = "Diogo O. Lins";
   const address = "Rua FullStack, 999, Centro, Dracena / SP"
 
+  const [toastMessage, setToastMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [myLocation, setMyLocation] = useState({
     latitude: -23.561747,
@@ -26,18 +34,31 @@ export default function Passenger() {
 
   function handlerPassenger() {
     setIsLoading(true);
-    alert("Clicou No Botãozão!")
-    setIsLoading(false);
+    setToastMessage("PEDIDO DE CARONA ENVIADO!");
+    setInterval(function () {
+      setIsLoading(false);
+      setToastMessage(null);
+    }, 5000);
+  }
 
+  function handlerProfile() {
+    Alert.alert("Vai Para o Perfil do Gayzão")
   }
 
 
-  if (!myLocation) {
+ /*  if (isLoading) {
     return <Loading />
-  }
+  } */
 
   return (
     <View style={styles.container}>
+      <Header title="ENCONTRE SUA CARONA">
+        <ButtonIcon
+          iconName="person"
+          onPress={handlerProfile}
+        />
+      </Header>
+      {toastMessage && <Toast message={toastMessage} color={THEME.COLOR.SUCCESS} />}
       <MapView
         style={styles.map}
         provider={PROVIDER_DEFAULT}

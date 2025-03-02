@@ -7,5 +7,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: THEME.BACKGROUND.DARK
+  },
+  text: {
+    fontSize: THEME.SIZE.XL,
+    color: THEME.COLOR.PRIMARY,
+    paddingBottom: 20,
   }
 });

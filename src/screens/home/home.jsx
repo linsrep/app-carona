@@ -50,7 +50,7 @@ export default function Home(props) {
       </TouchableOpacity>
 
       <View style={styles.copyright}>
-        <Text style={styles.copyrightTitle}>Copyright (c) 2025 - App Carona. Todos os direitos reservados</Text>
+        <Text style={styles.copyrightTitle}>Copyright (c) 2025 - APP LevaEU! Todos os direitos reservados</Text>
         <Text style={styles.copyrightTitle}>Desenvolvido por GOATech</Text>
       </View>
       <StatusBar style="light" />

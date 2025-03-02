@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     backgroundColor: THEME.COLOR.PRIMARY
   },
   btnTitle: {
-    color: THEME.COLOR.DARK,
+    color: THEME.COLOR.BLACK,
     fontFamily: THEME.FONTS.FAMILY.PRIMARY.BOLD,
     fontSize: THEME.SIZE.MD,
   },
