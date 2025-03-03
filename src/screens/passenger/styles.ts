@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   subtitle: {
     fontSize: THEME.SIZE.MD,
     color: THEME.COLOR.WARNING,
-    paddingTop: 10,
+    paddingTop: 8,
   },
   map: {
     flex: 1,
@@ -31,11 +31,11 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    padding: 10,
+    padding: 8,
     backgroundColor: THEME.BACKGROUND.OVERLAYDARK,
   },
   footerFields: {
-    paddingBottom: 10,
+    paddingBottom: 8,
   },
   footerText: {
     color: THEME.COLOR.PRIMARY,
