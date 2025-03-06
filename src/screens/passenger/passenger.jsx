@@ -36,6 +36,8 @@ export default function Passenger(props) {
   const [toastMessage, setToastMessage] = useState({});
   const [screenTitle, setScreenTitle] = useState("ENCONTRE SUA CARONA!");
   const [myLocation, setMyLocation] = useState({});
+  const [rideId, setRideId] = useState(0);
+  const [driverName, setDriverName] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
 
@@ -48,13 +50,16 @@ export default function Passenger(props) {
       passenger_name: "Diogo Lins",
       passenger_phone: "(18) 99999-9999",
       pickup_address: "Av. Paulista, 1500 - Jardim Paulista",
+      pickup_latitude: "-23.561747",
+      pickup_longitude: "-46.656244",
       pickup_date: "2025-03-06",
-      dropoff_address: "Shopping Morumbi",
+      dropoff_address: "Dracena - SP",
+      dropoff_latitude: "-21.4834",
+      dropoff_longitude: "-51.5335",
       status: "P",
       driver_user_id: 2,
       driver_name: "João Martins",
-      latitude: "-23.561747",
-      longitude: "-46.656244"
+      driver_phone: "(11) 99880-0000",
     };
 
     // retorna se tem corrida ou não
@@ -138,11 +143,13 @@ export default function Passenger(props) {
       // Seta a localização padrão só pra renderizar o mapa
       setScreenTitle(response.status == "P" ? "AGUARDANDO UMA CARONA..." : "CARONA CONFIRMADA!");
       setMyLocation({
-        latitude: Number(response.latitude),
-        longitude: Number(response.longitude),
+        latitude: Number(response.pickup_latitude),
+        longitude: Number(response.pickup_longitude),
       });
+      setRideId(response.ride_id);
       setPickupAddress(response.pickup_address);
       setDropoffAddress(response.dropoff_address);
+      setDriverName(response.driver_name + " - " + response.driver_phone);
       setStatus(response.status);
     }
   }
@@ -167,14 +174,12 @@ export default function Passenger(props) {
     }, 5000);
   }
 
+  // Cancela a Carona
   async function handlerCancelRide() {
 
     const json = {
       passenger_id: userId,
-      pickup_address: pickupAddress,
-      dropoff_address: dropoffAddress,
-      pickup_latitude: myLocation.latitude,
-      pickup_longitude: myLocation.longitude,
+      ride_id: rideId,
     }
 
     setIsLoading(true);
@@ -186,14 +191,12 @@ export default function Passenger(props) {
     }, 5000);
   }
 
+  // Finaliza a Carona
   async function handlerFinishRide() {
 
     const json = {
       passenger_id: userId,
-      pickup_address: pickupAddress,
-      dropoff_address: dropoffAddress,
-      pickup_latitude: myLocation.latitude,
-      pickup_longitude: myLocation.longitude,
+      ride_id: rideId,
     }
 
     setIsLoading(true);
@@ -204,7 +207,6 @@ export default function Passenger(props) {
       props.navigation.navigate("home");
     }, 5000);
   }
-
 
   // Vai para o perfil do carona
   function handlerProfile() {
@@ -231,14 +233,13 @@ export default function Passenger(props) {
         longitude: response.coords.longitude
       });
       // Muda a câmera para uma visão 3D
-      mapRef.current.animateCamera({
+      this.mapRef.current.animateCamera({
         pitch: 70,
         center: response.coords
       })
 
     });
   }, []);
-
 
   return (
     <View style={styles.container}>
@@ -294,12 +295,11 @@ export default function Passenger(props) {
                 onChangeText={(text) => setDropoffAddress(text)}
               />
             </View>
-            {status == "P" && <View style={styles.footerFields}>
+            {status == "A" && <View style={styles.footerFields}>
               <Text style={styles.footerText}>Motorista: </Text>
               <Input
                 canEdite={false}
-                value="Motorista"
-                placeholder="Motorista"
+                value={driverName}
               />
             </View>}
             {status == "" &&
