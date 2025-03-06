@@ -13,10 +13,14 @@ type Props = {
 
 export default function ButtonList({ data, ...rest }: Props) {
   return (
-    <TouchableOpacity style={styles.btn} {...rest}>
+    <TouchableOpacity
+      style={[styles.btn, data.status == "F" && { opacity: 0.5 }]}
+      disabled={data.status == "F" ? true : false}
+      {...rest}
+    >
       <View style={styles.content}>
         <Image source={img.car} style={styles.car} />
-        <Text style={styles.title}>{data.passenger_name}</Text>
+        <Text style={[styles.title, data.status == "F" && styles.titleFinishRide]}>{data.passenger_name}</Text>
       </View>
       <View style={styles.contentAddress}>
         <MaterialIcons

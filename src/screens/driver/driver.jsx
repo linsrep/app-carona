@@ -27,8 +27,6 @@ export default function Driver(props) {
     props.navigation.navigate("configuration");
   }
 
-  console.log(json_rides)
-
   return (
     <View style={styles.container}>
       <Header title="VIAGENS DISPONÍVEIS" props={props}>

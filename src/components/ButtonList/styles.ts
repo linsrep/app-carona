@@ -32,6 +32,9 @@ export const styles = StyleSheet.create({
     color: THEME.COLOR.PRIMARY,
     paddingBottom: 5,
   },
+  titleFinishRide: {
+    textDecorationLine: "line-through",
+  },
   address: {
     fontSize: THEME.SIZE.XS,
     color: THEME.COLOR.WHITE,
