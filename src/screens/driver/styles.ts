@@ -22,4 +22,15 @@ export const styles = StyleSheet.create({
     color: THEME.COLOR.WARNING,
     paddingTop: 10,
   },
+  containerNotFound: {
+    flex: 1,
+    flexDirection: "column",
+    gap: 5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  imgCar: {
+    width: 40,
+    height: 40,
+  }
 });

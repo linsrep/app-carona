@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Alert, FlatList } from 'react-native';
+import { View, Alert, Text, Image, FlatList } from 'react-native';
 /** STYLE */
 import { styles } from "./styles";
 /** HEADER */
@@ -8,12 +8,10 @@ import Header from "../../components/Header";
 import ButtonIcon from "../../components/ButtonIcon";
 /** BUTTON LIST */
 import ButtonList from "../../components/ButtonList";
-/** LOADING */
-import Loading from "../../components/Loading";
-/** TOAST */
-import Toast from "../../components/Toast";
 /** DATA */
 import { json_rides } from "../../constants/dados";
+/** ICONS */
+import img from "../../constants/img";
 
 
 export default function Driver(props) {
@@ -29,6 +27,8 @@ export default function Driver(props) {
     props.navigation.navigate("configuration");
   }
 
+  console.log(json_rides)
+
   return (
     <View style={styles.container}>
       <Header title="VIAGENS DISPONÍVEIS" props={props}>
@@ -38,14 +38,21 @@ export default function Driver(props) {
         />
       </Header>
       <View style={styles.contentLista}>
-        <FlatList
-          data={json_rides}
-          keyExtractor={(ride) => ride.ride_id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => {
-            return <ButtonList data={item} onPress={() => handlerPassenger(item.ride_id)} />
-          }}
-        />
+        {json_rides ?
+          <FlatList
+            data={json_rides}
+            keyExtractor={(ride) => ride.ride_id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => {
+              return <ButtonList data={item} onPress={() => handlerPassenger(item.ride_id)} />
+            }}
+          />
+          :
+          <View style={styles.containerNotFound}>
+            <Image source={img.car} style={styles.imgCar} />
+            <Text style={styles.subtitle}>Sem Pedidos de Caronas!</Text>
+          </View>
+        }
       </View>
     </View>
   );
