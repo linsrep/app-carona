@@ -4,10 +4,16 @@ import { TextInput, TextInputProps } from "react-native";
 import { THEME } from "../../theme";
 import { styles } from "./styles";
 
-export default function Input({ ...rest }: TextInputProps) {
+
+type Props = TextInputProps & {
+  canEdit?: boolean;
+}
+
+export default function Input({ canEdit = false, ...rest }: Props) {
   return (
     <TextInput
-      style={styles.container}
+      style={[styles.container, !canEdit && styles.textInputDisabled]}
+      editable={canEdit}
       placeholderTextColor={THEME.COLOR.QUATERNARY}
       {...rest}
     />

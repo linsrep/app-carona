@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Text, View } from 'react-native';
+import React, { useState, useEffect, useRef } from "react";
+import { Text, View, Alert } from 'react-native';
 /** LOCALIZATION */
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync, reverseGeocodeAsync, watchPositionAsync, LocationAccuracy } from "expo-location";
 /** MAPS - PROVIDER_DEFAULT ou PROVIDER_GOOGLE */
@@ -28,8 +28,13 @@ export default function Passenger(props) {
   const userId = 1;
   const username = "Diogo Lins";
 
+  // Referência do mapa para se mover conforme posição
+  const mapRef = useRef(null);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState("");
   const [toastMessage, setToastMessage] = useState({});
+  const [screenTitle, setScreenTitle] = useState("ENCONTRE SUA CARONA!");
   const [myLocation, setMyLocation] = useState({});
   const [pickupAddress, setPickupAddress] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
@@ -37,7 +42,20 @@ export default function Passenger(props) {
   // Faz a busca se existir carona em aberto
   async function RequestRideFromUser() {
     // Acessa os dados na API
-    const response = {};
+    const response = {
+      ride_id: 1,
+      passenger_user_id: 1,
+      passenger_name: "Diogo Lins",
+      passenger_phone: "(18) 99999-9999",
+      pickup_address: "Av. Paulista, 1500 - Jardim Paulista",
+      pickup_date: "2025-03-06",
+      dropoff_address: "Shopping Morumbi",
+      status: "P",
+      driver_user_id: 2,
+      driver_name: "João Martins",
+      latitude: "-23.561747",
+      longitude: "-46.656244"
+    };
 
     // retorna se tem corrida ou não
     return response;
@@ -65,21 +83,25 @@ export default function Passenger(props) {
     }
   }
 
-  // Requisita o nome da rua
+  // Requisita o nome da rua, número, bairro, cidade, estado... 
   async function RequestAddressName(lat, long) {
     const response = await reverseGeocodeAsync({
       latitude: lat,
       longitude: long
     });
 
+    // Gera o endereço com Rua, número, bairro...
     if (response[0].street && response[0].streetNumber && response[0].district) {
 
       const cityUf = "";
 
+      // Se achar a cidade, procure o estado (region)
       if (response[0].city) {
+        // se não tiver região, imprimi só a cidade...
         if (!response[0].region) {
           cityUf = response[0].city;
         } else {
+          // Se não, imprimi a cidade - estado
           cityUf = response[0].city + "-" + response[0].region;
         }
       }
@@ -103,6 +125,7 @@ export default function Passenger(props) {
       //const location = await RequestPermissionAndGetLocation();
 
       if (location.latitude) {
+        setScreenTitle("ENCONTRE SUA CARONA!");
         setMyLocation(location);
         RequestAddressName(location.latitude, location.longitude);
       } else {
@@ -113,10 +136,14 @@ export default function Passenger(props) {
       }
     } else {
       // Seta a localização padrão só pra renderizar o mapa
+      setScreenTitle(response.status == "P" ? "AGUARDANDO UMA CARONA..." : "CARONA CONFIRMADA!");
       setMyLocation({
-        latitude: -23.561747,
-        longitude: -46.656244,
+        latitude: Number(response.latitude),
+        longitude: Number(response.longitude),
       });
+      setPickupAddress(response.pickup_address);
+      setDropoffAddress(response.dropoff_address);
+      setStatus(response.status);
     }
   }
 
@@ -136,9 +163,48 @@ export default function Passenger(props) {
     setInterval(function () {
       setIsLoading(false);
       setToastMessage(null);
-      props.navigation.goBack();
+      props.navigation.navigate("home");
     }, 5000);
   }
+
+  async function handlerCancelRide() {
+
+    const json = {
+      passenger_id: userId,
+      pickup_address: pickupAddress,
+      dropoff_address: dropoffAddress,
+      pickup_latitude: myLocation.latitude,
+      pickup_longitude: myLocation.longitude,
+    }
+
+    setIsLoading(true);
+    setToastMessage({ message: "PEDIDO DE CARONA CANCELADO!", color: THEME.COLOR.SUCCESS });
+    setInterval(function () {
+      setIsLoading(false);
+      setToastMessage(null);
+      props.navigation.navigate("home");
+    }, 5000);
+  }
+
+  async function handlerFinishRide() {
+
+    const json = {
+      passenger_id: userId,
+      pickup_address: pickupAddress,
+      dropoff_address: dropoffAddress,
+      pickup_latitude: myLocation.latitude,
+      pickup_longitude: myLocation.longitude,
+    }
+
+    setIsLoading(true);
+    setToastMessage({ message: "CARONA FINALIZADA!", color: THEME.COLOR.SUCCESS });
+    setInterval(function () {
+      setIsLoading(false);
+      setToastMessage(null);
+      props.navigation.navigate("home");
+    }, 5000);
+  }
+
 
   // Vai para o perfil do carona
   function handlerProfile() {
@@ -156,12 +222,20 @@ export default function Passenger(props) {
       accuracy: LocationAccuracy.Highest,
       timeInterval: 1000,
       distanceInterval: 1
-    }, (response)=> {
-      console.log("Nova Localização: ", response);
+    }, (response) => {
+
+      // Seta a nova localização
+      console.log("NOVA LOCALIZAÇÃO: ", response);
       setMyLocation({
         latitude: response.coords.latitude,
         longitude: response.coords.longitude
+      });
+      // Muda a câmera para uma visão 3D
+      mapRef.current.animateCamera({
+        pitch: 70,
+        center: response.coords
       })
+
     });
   }, []);
 
@@ -171,7 +245,7 @@ export default function Passenger(props) {
 
       {toastMessage && <Toast message={toastMessage.message} color={toastMessage.color} />}
 
-      <Header title="ENCONTRE SUA CARONA" props={props}>
+      <Header title={screenTitle} props={props}>
         <ButtonIcon
           iconName="person"
           onPress={handlerProfile}
@@ -181,6 +255,7 @@ export default function Passenger(props) {
       {myLocation.latitude ?
         <>
           <MapView
+            ref={mapRef}
             style={styles.map}
             provider={PROVIDER_DEFAULT}
             initialRegion={{
@@ -200,15 +275,13 @@ export default function Passenger(props) {
               style={styles.marker}
             />
           </MapView>
-          <View>
-            <Text>Botão de Abrir Carona</Text>
-          </View>
           <View style={styles.footer}>
             <View style={styles.footerFields}>
               <Text style={styles.footerText}>Origem: </Text>
               <Input
                 placeholder="Origem de Partida"
                 value={pickupAddress}
+                canEdit={status == "" ? true : false}
                 onChangeText={(text) => setPickupAddress(text)}
               />
             </View>
@@ -217,16 +290,26 @@ export default function Passenger(props) {
               <Input
                 placeholder="Destino da Carona"
                 value={dropoffAddress}
+                canEdit={status == "" ? true : false}
                 onChangeText={(text) => setDropoffAddress(text)}
               />
             </View>
-            {/*  <View style={styles.footerFields}>
+            {status == "P" && <View style={styles.footerFields}>
               <Text style={styles.footerText}>Motorista: </Text>
               <Input
+                canEdite={false}
+                value="Motorista"
                 placeholder="Motorista"
               />
-            </View> */}
-            <Button title="PEDIR CARONA" onPress={handlerPassenger} isLoading={isLoading} />
+            </View>}
+            {status == "" &&
+              <Button title="PEDIR CARONA" onPress={handlerPassenger} isLoading={isLoading} />}
+
+            {status == "P" &&
+              <Button title="CANCELAR CARONA" onPress={handlerCancelRide} isLoading={isLoading} />}
+
+            {status == "A" &&
+              <Button title="FINALIZAR CARONA" onPress={handlerFinishRide} isLoading={isLoading} />}
           </View>
         </>
         :

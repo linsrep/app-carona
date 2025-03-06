@@ -13,5 +13,8 @@ export const styles = StyleSheet.create({
     color: THEME.COLOR.WHITE,
     fontFamily: THEME.FONTS.FAMILY.PRIMARY.REGULAR,
     fontSize: THEME.SIZE.MD
+  },
+  textInputDisabled: {
+    opacity: 0.7
   }
 });

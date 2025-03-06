@@ -3,8 +3,6 @@ import { Text, Image, View, ActivityIndicator } from "react-native";
 /** STYLES */
 import { THEME } from "../../theme";
 import { styles } from "./styles";
-/** ICONS */
-import img from "../../constants/img"
 
 export default function Loading(){
   return(
