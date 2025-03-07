@@ -20,7 +20,11 @@ export default function ButtonList({ data, ...rest }: Props) {
     >
       <View style={styles.content}>
         <Image source={img.car} style={styles.car} />
-        <Text style={[styles.title, data.status == "F" && styles.titleFinishRide]}>{data.passenger_name}</Text>
+        <Text style={[styles.title, data.status =="F" && styles.titleFinishRide]}>
+          {data.passenger_name} {" "}
+          {data.status == "A" &&
+          <Text style={styles.titleProgressRide}>(Em Progresso!)</Text>}
+        </Text>
       </View>
       <View style={styles.contentAddress}>
         <MaterialIcons

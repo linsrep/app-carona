@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Alert, Text, Image, FlatList } from 'react-native';
 /** STYLE */
 import { styles } from "./styles";
@@ -8,14 +8,18 @@ import Header from "../../components/Header";
 import ButtonIcon from "../../components/ButtonIcon";
 /** BUTTON LIST */
 import ButtonList from "../../components/ButtonList";
+/** LOADING */
+import Loading from "../../components/Loading";
 /** DATA */
 import { json_rides } from "../../constants/dados";
 /** ICONS */
 import img from "../../constants/img";
 
 
+
 export default function Driver(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [rides, setRides] = useState([]);
 
   function handlerPassenger(id) {
     setIsLoading(true);
@@ -27,6 +31,22 @@ export default function Driver(props) {
     props.navigation.navigate("configuration");
   }
 
+  async function requestRides() {
+    setIsLoading(true);
+    setInterval(function () {
+      setRides(json_rides);
+      setIsLoading(false);
+    }, 3000);
+  }
+
+  useEffect(() => {
+    requestRides();
+  }, []);
+
+  if(isLoading){
+    return <Loading />
+  }
+
   return (
     <View style={styles.container}>
       <Header title="VIAGENS DISPONÍVEIS" props={props}>
@@ -36,9 +56,9 @@ export default function Driver(props) {
         />
       </Header>
       <View style={styles.contentLista}>
-        {json_rides ?
+        {rides != "" ?
           <FlatList
-            data={json_rides}
+            data={rides}
             keyExtractor={(ride) => ride.ride_id}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => {

@@ -35,6 +35,14 @@ export const styles = StyleSheet.create({
   titleFinishRide: {
     textDecorationLine: "line-through",
   },
+  titleProgressRide: {
+    fontSize: THEME.SIZE.XS,
+    color: THEME.COLOR.SUCCESS
+  },
+  titleCancelRide: {
+    fontSize: THEME.SIZE.XS,
+    color: THEME.COLOR.SUCCESS
+  },
   address: {
     fontSize: THEME.SIZE.XS,
     color: THEME.COLOR.WHITE,
