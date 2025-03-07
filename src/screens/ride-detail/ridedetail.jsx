@@ -47,7 +47,7 @@ export default function RideDetail(props) {
       dropoff_address: "Dracena - SP",
       dropoff_latitude: "-21.4834",
       dropoff_longitude: "-51.5335",
-      status: "A",
+      status: "P",
       driver_user_id: 2,
       driver_name: "João Martins",
       driver_phone: "(11) 99880-0000",
@@ -77,7 +77,13 @@ export default function RideDetail(props) {
       driver_user_id: userId,
       ride_id: rideId
     }
+    setIsLoading(true);
     setToastMessage({ message: "PEDIDO DE CARONA ACEITO!", color: THEME.COLOR.SUCCESS });
+    setInterval(function () {
+      setIsLoading(false);
+      setToastMessage(null);
+      // props.navigation.navigate("home");
+    }, 3000);
   }
 
   // Cancela a Viagem
@@ -94,16 +100,7 @@ export default function RideDetail(props) {
       setIsLoading(false);
       setToastMessage(null);
       // props.navigation.navigate("home");
-    }, 5000);
-  }
-
-  // Finaliza a viagem
-  async function handlerFinishRide() {
-    const json = {
-      driver_user_id: userId,
-      ride_id: rideId
-    }
-    Alert.alert("Tudo Certo!", "Viagem Finalizada!")
+    }, 3000);
   }
 
   // Vai para o perfil do motorista
@@ -168,14 +165,11 @@ export default function RideDetail(props) {
                 canEdit={false}
               />
             </View>
-            {ride.status == "" &&
+            {ride.status == "P" &&
               <Button title="ACEITAR VIAGEM" onPress={handlerAcceptRide} isLoading={isLoading} />}
 
-            {ride.status == "P" &&
-              <Button title="CANCELAR VIAGEM" onPress={handlerCancelRide} isLoading={isLoading} />}
-
             {ride.status == "A" &&
-              <Button title="FINALIZAR VIAGEM" onPress={handlerFinishRide} isLoading={isLoading} />}
+              <Button title="FINALIZAR VIAGEM" onPress={handlerCancelRide} isLoading={isLoading} />}
           </View>
         </>
         :
