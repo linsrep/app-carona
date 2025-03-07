@@ -22,7 +22,7 @@ export default function Profile(props) {
           onPress={handlerRides}
         />
       </Header>
-      <Text style={styles.title}>APP CARONA</Text>
+      <Text style={styles.title}>APP LEVAEU!</Text>
       <Text style={styles.subtitle}>Página de Perfil</Text>
     </View>
   );

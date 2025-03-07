@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     zIndex:2,
     width: "100%",
     height: 90,
-    padding: 15,
+    padding: 10,
     paddingBottom: 0,
 
     flexDirection: "row",
@@ -17,10 +17,20 @@ export const styles = StyleSheet.create({
 
     backgroundColor: THEME.BACKGROUND.OVERLAYDARK,
   },
+  content: {
+    flex: 1,
+    flexDirection: "column",
+  },
   title: {
     fontFamily: THEME.FONTS.FAMILY.PRIMARY.BOLD,
-    fontSize: THEME.SIZE.LG,
+    fontSize: THEME.SIZE.MD,
     color: THEME.COLOR.PRIMARY,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontFamily: THEME.FONTS.FAMILY.PRIMARY.BOLD,
+    fontSize: THEME.SIZE.XS,
+    color: THEME.COLOR.QUATERNARY,
     textAlign: "center",
   }
 });

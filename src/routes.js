@@ -3,8 +3,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "./screens/home/home";
 import Driver from "./screens/driver/driver";
-import Passenger from "./screens/passenger/passenger"
-import Profile from "./screens/profile/profile"
+import RideDetail from "./screens/ride-detail/ridedetail";
+import Passenger from "./screens/passenger/passenger";
+import Profile from "./screens/profile/profile";
 import Configuration from "./screens/configuration/configuration";
 
 const Stack = createNativeStackNavigator();
@@ -27,10 +28,14 @@ export default function Routes() {
           options={{ headerShown: false }}
           component={Driver} />
         <Stack.Screen
+          name="ride-detail"
+          options={{ headerShown: false }}
+          component={RideDetail} />
+        <Stack.Screen
           name="profile"
           options={{ headerShown: false }}
           component={Profile} />
-          <Stack.Screen
+        <Stack.Screen
           name="configuration"
           options={{ headerShown: false }}
           component={Configuration} />

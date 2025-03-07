@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Alert, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList } from 'react-native';
 /** STYLE */
 import { styles } from "./styles";
 /** HEADER */
@@ -18,13 +18,16 @@ import img from "../../constants/img";
 
 
 export default function Driver(props) {
+  const userId = 2;
+  const username= "Diogo O. Lins";
   const [isLoading, setIsLoading] = useState(false);
   const [rides, setRides] = useState([]);
 
   function handlerPassenger(id) {
-    setIsLoading(true);
-    Alert.alert("CARONA ACEITA", "Rua Dos Programadores, " + id)
-    setIsLoading(false);
+    props.navigation.navigate("ride-detail", {
+      rideId: id,
+      userId: userId
+    });
   }
 
   function handlerConfig() {
@@ -36,20 +39,20 @@ export default function Driver(props) {
     setInterval(function () {
       setRides(json_rides);
       setIsLoading(false);
-    }, 3000);
+    }, 1000);
   }
 
   useEffect(() => {
     requestRides();
   }, []);
 
-  if(isLoading){
+  if (isLoading) {
     return <Loading />
   }
 
   return (
     <View style={styles.container}>
-      <Header title="VIAGENS DISPONÍVEIS" props={props}>
+      <Header title="VIAGENS DISPONÍVEIS" subtitle={username} props={props}>
         <ButtonIcon
           iconName="list"
           onPress={handlerConfig}
