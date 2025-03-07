@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, Alert } from 'react-native';
-/** LOCALIZATION */
-import { getCurrentPositionAsync, requestForegroundPermissionsAsync, reverseGeocodeAsync, watchPositionAsync, LocationAccuracy } from "expo-location";
 /** MAPS - PROVIDER_DEFAULT ou PROVIDER_GOOGLE */
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 /** STYLE */
@@ -21,26 +19,18 @@ import Input from "../../components/Input";
 import Loading from "../../components/Loading";
 /** ICONS */
 import img from "../../constants/img";
-import { useSearchParams } from "expo-router/build/hooks";
 
 
 export default function RideDetail(props) {
 
+  // Dados capturados da rota.
   const rideId = props.route.params.rideId;
   const userId = props.route.params.useId;
-  const username = "Diogo Lins";
-
-  // Referência do mapa para se mover conforme posição
-  const mapRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState({});
   const [screenTitle, setScreenTitle] = useState("ENCONTRE SEU CARONA!");
-  const [status, setStatus] = useState("");
-  const [myLocation, setMyLocation] = useState({});
-  const [pickupAddress, setPickupAddress] = useState("");
-  const [dropoffAddress, setDropoffAddress] = useState("");
-  const [ridelocation, setRideLocation] = useState({});
+  const [ride, setRide] = useState({});
 
   // Faz a busca se existir carona em aberto
   async function RequestRideFromUser() {
@@ -57,7 +47,7 @@ export default function RideDetail(props) {
       dropoff_address: "Dracena - SP",
       dropoff_latitude: "-21.4834",
       dropoff_longitude: "-51.5335",
-      status: "P",
+      status: "A",
       driver_user_id: 2,
       driver_name: "João Martins",
       driver_phone: "(11) 99880-0000",
@@ -71,35 +61,50 @@ export default function RideDetail(props) {
   async function LoadScreen() {
     const ride = await RequestRideFromUser();
 
-    if (ride) {
-      setScreenTitle(ride.passenger_name + " - " + ride.driver_phone)
-      setMyLocation({
-        latitude: ride.pickup_latitude,
-        longitude: ride.pickup_longitude
-      })
-      setPickupAddress(ride.pickup_address);
-      setDropoffAddress(ride.dropoff_address);
+    if (ride.passenger_name) {
+      setScreenTitle(ride.passenger_name + " - " + ride.passenger_phone)
+      setRide(ride);
+    } else {
+      setScreenTitle("Carona Não Encontrada!")
+      Alert.alert("Tivemos um Problema!", "Pedido de carona não encontrado!");
+      //props.navigation.navigate("driver");
     }
   }
 
-  // Carrega os dados do carona
-  async function handlerPassenger() {
+  // Aceita a Viagem
+  async function handlerAcceptRide() {
+    const json = {
+      driver_user_id: userId,
+      ride_id: rideId
+    }
+    setToastMessage({ message: "PEDIDO DE CARONA ACEITO!", color: THEME.COLOR.SUCCESS });
+  }
+
+  // Cancela a Viagem
+  async function handlerCancelRide() {
 
     const json = {
-      passenger_id: userId,
-      pickup_latitude: myLocation.latitude,
-      pickup_longitude: myLocation.longitude,
+      driver_user_id: userId,
+      ride_id: rideId
     }
 
     setIsLoading(true);
-    setToastMessage({ message: "PEDIDO DE CARONA ACEITO!", color: THEME.COLOR.SUCCESS });
+    setToastMessage({ message: "PEDIDO DE CARONA CANCELADO!", color: THEME.COLOR.DANGER });
     setInterval(function () {
       setIsLoading(false);
       setToastMessage(null);
-      props.navigation.navigate("home");
+      // props.navigation.navigate("home");
     }, 5000);
   }
 
+  // Finaliza a viagem
+  async function handlerFinishRide() {
+    const json = {
+      driver_user_id: userId,
+      ride_id: rideId
+    }
+    Alert.alert("Tudo Certo!", "Viagem Finalizada!")
+  }
 
   // Vai para o perfil do motorista
   function handlerProfile() {
@@ -123,25 +128,25 @@ export default function RideDetail(props) {
         />
       </Header>
 
-      {myLocation.latitude ?
+      {ride.pickup_latitude ?
         <>
           <MapView
-            ref={mapRef}
             style={styles.map}
             provider={PROVIDER_DEFAULT}
             initialRegion={{
-              latitude: myLocation.latitude,
-              longitude: myLocation.longitude,
+              latitude: ride.pickup_latitude,
+              longitude: ride.pickup_longitude,
               latitudeDelta: 0.005,
               longitudeDelta: 0.005,
+              altitude: 20,
             }}
           >
             <Marker coordinate={{
-              latitude: myLocation.latitude,
-              longitude: myLocation.longitude,
+              latitude: ride.pickup_latitude,
+              longitude: ride.pickup_longitude,
             }}
-              title={setScreenTitle}
-              description={pickupAddress}
+              title={screenTitle}
+              description={ride.pickup_address}
               image={img.location}
               style={styles.marker}
             />
@@ -151,34 +156,25 @@ export default function RideDetail(props) {
               <Text style={styles.footerText}>Origem: </Text>
               <Input
                 placeholder="Origem de Partida"
-                value={pickupAddress}
+                value={ride.pickup_address}
                 canEdit={false}
-                onChangeText={(text) => setPickupAddress(text)}
               />
             </View>
             <View style={styles.footerFields}>
               <Text style={styles.footerText}>Destino: </Text>
               <Input
                 placeholder="Destino da Carona"
-                value={dropoffAddress}
+                value={ride.dropoff_address}
                 canEdit={false}
-                onChangeText={(text) => setDropoffAddress(text)}
               />
             </View>
-            {status == "A" && <View style={styles.footerFields}>
-              <Text style={styles.footerText}>Motorista: </Text>
-              <Input
-                canEdite={false}
-                value={driverName}
-              />
-            </View>}
-            {status == "" &&
-              <Button title="ACEITAR VIAGEM" onPress={handlerPassenger} isLoading={isLoading} />}
+            {ride.status == "" &&
+              <Button title="ACEITAR VIAGEM" onPress={handlerAcceptRide} isLoading={isLoading} />}
 
-            {status == "P" &&
+            {ride.status == "P" &&
               <Button title="CANCELAR VIAGEM" onPress={handlerCancelRide} isLoading={isLoading} />}
 
-            {status == "A" &&
+            {ride.status == "A" &&
               <Button title="FINALIZAR VIAGEM" onPress={handlerFinishRide} isLoading={isLoading} />}
           </View>
         </>
